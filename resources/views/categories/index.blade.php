@@ -4,13 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 mt-3 mb-3">
-            @include('customers.create')
+            @include('categories.create')
         </div>
         <div class="col-md-12 mt-3 mb-3">
             <div class="card shadow">
                 <div class="card-header bg-dark">
                     <strong class="text-light">
-                        List of Customers
+                        List of Categories
                     </strong>
                 </div>
                 <div class="card-body">
@@ -20,51 +20,39 @@
                             <thead>
                                 <tr class="table-head-detail">
                                     <th>#</th>
-                                    <th>Customer ID</th>
+                                    <th>Category ID</th>
                                     <th>Name</th>
-                                    <th>Contact</th>
-                                    <th>Address</th>
-                                    <th>Type</th>
                                     <th>Registered</th>
                                     <th>Modified</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="customers">
-                                @foreach ($customers as $customer)
-                                    <tr class="customer-detail">
+                            <tbody id="categories">
+                                @foreach ($categories as $category)
+                                    <tr class="category-detail">
                                         <td>
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{ $customer->id }}
+                                            {{ $category->id }}
                                         </td>
                                         <td>
-                                            {{ $customer->name }}
+                                            {{ $category->name }}
                                         </td>
                                         <td>
-                                            {{ $customer->number }}
+                                            {{ date('F jS, Y', strtotime($category->created_at)) }}
                                         </td>
                                         <td>
-                                            {{ $customer->address }}
+                                            {{ date('F jS, Y', strtotime($category->updated_at)) }}
                                         </td>
                                         <td>
-                                            {{ $customer->type }}
-                                        </td>
-                                        <td>
-                                            {{ date('F jS, Y', strtotime($customer->created_at)) }}
-                                        </td>
-                                        <td>
-                                            {{ date('F jS, Y', strtotime($customer->updated_at)) }}
-                                        </td>
-                                        <td>
-                                            <a href="#" onclick="formInlineEdit({{ $customer->id }})">Edit</a>
+                                            <a href="#" onclick="formInlineEdit({{ $category->id }})">Edit</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             {{-- edit forms --}}
-                                            @include('customers.edit')
+                                            @include('categories.edit')
                                         </td>
                                     </tr>
                                 @endforeach
@@ -72,7 +60,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="7" class="pb-0">
-                                        {{ $customers->links() }}
+                                        {{ $categories->links() }}
                                     </td>
                                 </tr>
                             </tfoot>
@@ -90,14 +78,14 @@
         $(document).ready(function(){
             $("#filter").on("keyup", function() {
               var value = $(this).val().toLowerCase();
-              $("#customers tr").filter(function() {
+              $("#categories tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
               });
             });
         });
 
         function formInlineEdit(id) {
-            $('#edit-customer-detail'+id).modal('show')
+            $('#edit-category-detail'+id).modal('show')
         }
     </script>
 @endsection

@@ -19,4 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/customers', 'CustomerController');
+Route::resource('/customers', 'CustomerController', ['except' => ['create', 'show', 'edit', 'destroy']]);
+Route::resource('/suppliers', 'SupplierController', ['except' => ['create', 'show', 'edit', 'destroy']]);
+Route::resource('/brands', 'BrandController', ['except' => ['create', 'show', 'edit', 'destroy']]);
+Route::resource('/categories', 'CategoryController', ['except' => ['create', 'show', 'edit', 'destroy']]);
+Route::resource('/products', 'ProductController', ['except' => ['create', 'show', 'edit', 'destroy']]);

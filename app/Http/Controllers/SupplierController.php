@@ -3,81 +3,65 @@
 namespace App\Http\Controllers;
 
 use App\Supplier;
+use Session;
+
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+        $suppliers = Supplier::latest('id')->paginate(15);
+        return view('suppliers.index')->with('suppliers', $suppliers);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validator = $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'number' => 'required|min:11|max:14',
+            'address' => 'required|min:4|max:255',
+        ]);
+
+        $supplier = new Supplier;
+        $supplier->name = $request->name;
+        $supplier->type = $request->type;
+        $supplier->number = $request->number;
+        $supplier->address = $request->address;
+        $supplier->save();
+
+        Session::flash('message', 'Supplier, ' . $supplier->name . ' added to the database.');
+        return redirect()->route('suppliers.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Supplier $supplier)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Supplier $supplier)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $validator = $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'number' => 'required|min:11|max:14',
+            'address' => 'required|min:4|max:255',
+        ]);
+
+        $supplier = Supplier::find($supplier->id);
+
+        Session::flash('message', 'Supplier, ' . $supplier->name . ' information updated.');
+
+        $supplier->name = $request->name;
+        $supplier->type = $request->type;
+        $supplier->number = $request->number;
+        $supplier->address = $request->address;
+        $supplier->save();
+
+        return redirect()->route('suppliers.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Supplier $supplier)
     {
         //

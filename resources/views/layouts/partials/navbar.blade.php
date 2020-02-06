@@ -11,7 +11,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {{-- Left Side Of Navbar --}}
             <ul class="navbar-nav mr-auto">
-
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage Stakeholder
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                        <a class="dropdown-item" href="{{ route('customers.index') }}">Customers</a>
+                        <a class="dropdown-item" href="{{ route('suppliers.index') }}">Suppliers</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage Product
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                        <a class="dropdown-item" href="{{ route('products.index') }}">Products</a>
+                        <a class="dropdown-item" href="{{ route('brands.index') }}">Product Brands</a>
+                        <a class="dropdown-item" href="{{ route('categories.index') }}">Product Category</a>
+                    </div>
+                </li>
             </ul>
 
             {{-- Right Side Of Navbar --}}

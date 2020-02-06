@@ -3,6 +3,14 @@
 <head>
     @include('layouts.partials.header')
     @yield('styles')
+    <style>
+        .form-control, .custom-select, .btn {
+            outline: none;
+            -webkit-box-shadow: none !important;
+            -moz-box-shadow: none !important;
+            box-shadow: none !important;
+          }
+    </style>
 </head>
 <body>
     <div id="app">

@@ -4,13 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 mt-3 mb-3">
-            @include('customers.create')
+            @include('suppliers.create')
         </div>
         <div class="col-md-12 mt-3 mb-3">
             <div class="card shadow">
                 <div class="card-header bg-dark">
                     <strong class="text-light">
-                        List of Customers
+                        List of Suppliers
                     </strong>
                 </div>
                 <div class="card-body">
@@ -20,7 +20,7 @@
                             <thead>
                                 <tr class="table-head-detail">
                                     <th>#</th>
-                                    <th>Customer ID</th>
+                                    <th>Supplier ID</th>
                                     <th>Name</th>
                                     <th>Contact</th>
                                     <th>Address</th>
@@ -30,41 +30,41 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="customers">
-                                @foreach ($customers as $customer)
-                                    <tr class="customer-detail">
+                            <tbody id="suppliers">
+                                @foreach ($suppliers as $supplier)
+                                    <tr class="supplier-detail">
                                         <td>
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{ $customer->id }}
+                                            {{ $supplier->id }}
                                         </td>
                                         <td>
-                                            {{ $customer->name }}
+                                            {{ $supplier->name }}
                                         </td>
                                         <td>
-                                            {{ $customer->number }}
+                                            {{ $supplier->number }}
                                         </td>
                                         <td>
-                                            {{ $customer->address }}
+                                            {{ $supplier->address }}
                                         </td>
                                         <td>
-                                            {{ $customer->type }}
+                                            {{ $supplier->type }}
                                         </td>
                                         <td>
-                                            {{ date('F jS, Y', strtotime($customer->created_at)) }}
+                                            {{ date('F jS, Y', strtotime($supplier->created_at)) }}
                                         </td>
                                         <td>
-                                            {{ date('F jS, Y', strtotime($customer->updated_at)) }}
+                                            {{ date('F jS, Y', strtotime($supplier->updated_at)) }}
                                         </td>
                                         <td>
-                                            <a href="#" onclick="formInlineEdit({{ $customer->id }})">Edit</a>
+                                            <a href="#" onclick="formInlineEdit({{ $supplier->id }})">Edit</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             {{-- edit forms --}}
-                                            @include('customers.edit')
+                                            @include('suppliers.edit')
                                         </td>
                                     </tr>
                                 @endforeach
@@ -72,7 +72,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="7" class="pb-0">
-                                        {{ $customers->links() }}
+                                        {{ $suppliers->links() }}
                                     </td>
                                 </tr>
                             </tfoot>
@@ -90,14 +90,14 @@
         $(document).ready(function(){
             $("#filter").on("keyup", function() {
               var value = $(this).val().toLowerCase();
-              $("#customers tr").filter(function() {
+              $("#suppliers tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
               });
             });
         });
 
         function formInlineEdit(id) {
-            $('#edit-customer-detail'+id).modal('show')
+            $('#edit-supplier-detail'+id).modal('show')
         }
     </script>
 @endsection

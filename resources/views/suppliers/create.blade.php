@@ -1,14 +1,14 @@
 <div class="accordion" id="accordionExample">
   <div class="card shadow">
-    <div class="card-header bg-dark" data-toggle="collapse" data-target="#add_customer_form" aria-expanded="true" aria-controls="add_customer_form">
+    <div class="card-header bg-dark" data-toggle="collapse" data-target="#add_supplier_form" aria-expanded="true" aria-controls="add_supplier_form">
       <strong class="text-light">
-          Add New Customer
+          Add New Supplier
       </strong>
     </div>
 
-    <div id="add_customer_form" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+    <div id="add_supplier_form" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        <form action="{{ route('customers.store') }}" method="POST">
+        <form action="{{ route('suppliers.store') }}" method="POST">
           @csrf
           <div class="row justify-content-center">
             <div class="col-3">
@@ -50,7 +50,7 @@
 
             <div class="col-3">
               <div class="form-group">
-                <label>Type of Customer</label>
+                <label>Type of supplier</label>
                 <select name="type" class="custom-select">
                   <option value="regular" {{ old('type') === 'regular' ? 'selected' : "" }}>Regular</option>
                   <option value="non-regular" {{ old('type') === 'non-regular' ? 'selected' : "" }}>Non Regular</option>
