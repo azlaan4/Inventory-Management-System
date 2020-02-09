@@ -40,6 +40,7 @@ class ProductController extends Controller
             'size' => 'required',
             'unit' => 'required',
             'price' => 'required|integer|min:2',
+            'mrp' => 'required|integer|min:2',
             'status' => 'required',
         ]);
 
@@ -50,6 +51,7 @@ class ProductController extends Controller
         $product->size = $request->size;
         $product->unit = $request->unit;
         $product->price = $request->price;
+        $product->mrp = $request->mrp;
         $product->status = $request->status;
         $product->stock = 0;
         $product->save();
@@ -67,18 +69,20 @@ class ProductController extends Controller
             'size' => 'required',
             'unit' => 'required',
             'price' => 'required|integer|min:2',
+            'mrp' => 'required|integer|min:2',
             'status' => 'required',
         ]);
 
         Session::flash('message', 'Product, ' . $product->name . ' added to the database.');
 
-        $product = Productfind($product->id);
+        $product = Product::find($product->id);
         $product->name = $request->name;
         $product->brand_id = $request->brand_id;
         $product->category_id = $request->category_id;
         $product->size = $request->size;
         $product->unit = $request->unit;
         $product->price = $request->price;
+        $product->mrp = $request->mrp;
         $product->status = $request->status;
         $product->save();
 

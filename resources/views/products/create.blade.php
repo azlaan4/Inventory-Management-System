@@ -58,7 +58,7 @@
 
             <div class="col-3">
               <div class="form-group">
-                <label>Price</label>
+                <label>Actual Price</label>
                 <input name="price" type="text" class="form-control @error('price') is-invalid @enderror" value="{{ old('price') }}" placeholder="Cost per Unit">
                 @error('price')
                     <span class="text-danger" role="alert">
@@ -70,6 +70,18 @@
           </div>
 
           <div class="row justify-content-center">
+            <div class="col-3">
+              <div class="form-group">
+                <label>Max. Retail Price <small>(MRP)</small></label>
+                <input name="mrp" type="text" class="form-control @error('mrp') is-invalid @enderror" value="{{ old('mrp') }}" placeholder="Cost per Unit">
+                @error('mrp')
+                    <span class="text-danger" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+            </div>
+
             <div class="col-3">
               <div class="form-group">
                 <label>Size</label>
@@ -117,9 +129,10 @@
                 @enderror
               </div>
             </div>
-
+          </div>
+          <div class="row">
             <div class="col-3">
-              <button type="submit" class="btn btn-success btn-block mt-4">Add</button>
+              <button type="submit" class="btn btn-success btn-block">Add</button>
             </div>
           </div>
         </form>

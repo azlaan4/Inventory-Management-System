@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="#">
@@ -28,6 +27,22 @@
                         <a class="dropdown-item" href="{{ route('products.index') }}">Products</a>
                         <a class="dropdown-item" href="{{ route('brands.index') }}">Product Brands</a>
                         <a class="dropdown-item" href="{{ route('categories.index') }}">Product Category</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Transections
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                        <a class="dropdown-item" href="{{ route('purchases.index') }}">Purchases</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reports
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                        <a class="dropdown-item" href="#">Work in Progress</a>
                     </div>
                 </li>
             </ul>

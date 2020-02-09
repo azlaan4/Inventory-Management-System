@@ -53,9 +53,19 @@
           </div>
 
           <div class="form-group">
-            <label>Price</label>
+            <label>Actual Price</label>
             <input name="price" type="text" class="form-control @error('price') is-invalid @enderror" value="{{ $product->price }}" placeholder="Cost per Unit">
             @error('price')
+                <span class="text-danger" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+          </div>
+
+          <div class="form-group">
+            <label>Max. Retail Price <small>(MRP)</small></label>
+            <input name="mrp" type="text" class="form-control @error('mrp') is-invalid @enderror" value="{{ $product->mrp }}" placeholder="Cost per Unit">
+            @error('mrp')
                 <span class="text-danger" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>

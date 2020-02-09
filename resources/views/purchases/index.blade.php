@@ -4,13 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 mt-3 mb-3">
-            @include('products.create')
+            @include('purchases.create')
         </div>
         <div class="col-md-12 mt-3 mb-3">
             <div class="card shadow">
                 <div class="card-header bg-dark">
                     <strong class="text-light">
-                        List of Products
+                        List of Purchases
                     </strong>
                 </div>
                 <div class="card-body">
@@ -20,71 +20,51 @@
                             <thead>
                                 <tr class="table-head-detail">
                                     <th>#</th>
-                                    <th>Product ID</th>
+                                    <th>Purchase ID</th>
                                     <th>Name</th>
-                                    <th>Brand</th>
-                                    <th>Category</th>
-                                    <th>Size</th>
-                                    <th>Price</th>
-                                    <th>MRP</th>
-                                    <th>Unit</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
+                                    <th>Contact</th>
+                                    <th>Address</th>
+                                    <th>Type</th>
                                     <th>Registered</th>
                                     <th>Modified</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="products">
-                                @foreach ($products as $product)
-                                    <tr class="product-detail">
+                            <tbody id="purchases">
+                                @foreach ($purchases as $purchase)
+                                    <tr class="purchase-detail">
                                         <td>
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{ $product->id }}
+                                            {{ $purchase->id }}
+                                        </td>
+                                        {{--  <td>
+                                            {{ $purchase->name }}
                                         </td>
                                         <td>
-                                            {{ $product->name }}
+                                            {{ $purchase->number }}
                                         </td>
                                         <td>
-                                            {{ $product->brand->name }}
+                                            {{ $purchase->address }}
                                         </td>
                                         <td>
-                                            {{ $product->category->name }}
+                                            {{ $purchase->type }}
                                         </td>
                                         <td>
-                                            {{ $product->size }}
+                                            {{ date('F jS, Y', strtotime($purchase->created_at)) }}
                                         </td>
                                         <td>
-                                            {{ $product->price }}
+                                            {{ date('F jS, Y', strtotime($purchase->updated_at)) }}
                                         </td>
                                         <td>
-                                            {{ $product->mrp }}
-                                        </td>
-                                        <td>
-                                            {{ $product->unit }}
-                                        </td>
-                                        <td>
-                                            {{ $product->stock }}
-                                        </td>
-                                        <td>
-                                            {{ $product->status }}
-                                        </td>
-                                        <td>
-                                            {{ date('d/m/Y', strtotime($product->created_at)) }}
-                                        </td>
-                                        <td>
-                                            {{ date('d/m/Y', strtotime($product->updated_at)) }}
-                                        </td>
-                                        <td>
-                                            <a href="#" onclick="formInlineEdit({{ $product->id }})">Edit</a>
-                                        </td>
+                                            <a href="#" onclick="formInlineEdit({{ $purchase->id }})">Edit</a>
+                                        </td>  --}}
                                     </tr>
                                     <tr>
                                         <td>
                                             {{-- edit forms --}}
-                                            @include('products.edit')
+                                            {{--  @include('purchases.edit')  --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -92,7 +72,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="7" class="pb-0">
-                                        {{ $products->links() }}
+                                        {{ $purchases->links() }}
                                     </td>
                                 </tr>
                             </tfoot>
@@ -110,14 +90,14 @@
         $(document).ready(function(){
             $("#filter").on("keyup", function() {
               var value = $(this).val().toLowerCase();
-              $("#products tr").filter(function() {
+              $("#purchases tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
               });
             });
         });
 
         function formInlineEdit(id) {
-            $('#edit-product-detail'+id).modal('show')
+            $('#edit-purchase-detail'+id).modal('show')
         }
     </script>
 @endsection
