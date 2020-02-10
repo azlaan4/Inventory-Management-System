@@ -8,8 +8,10 @@
 
     <div id="add_supplier_form" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        <form action="{{ route('suppliers.store') }}" method="POST">
+        <form action="{{ route('purchases.store') }}" method="POST">
           @csrf
+          {{-- hidden purchase details --}}
+          <input type="hidden" id="purchase_details" name="purchase_details[]">
           <div class="row">
             <div class="col-3">
               <div class="form-group">
@@ -19,11 +21,6 @@
                     <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : "" }}>{{ $supplier->name }}</option>
                   @endforeach
                 </select>
-                @error('supplier_id')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
               </div>
             </div>
 
@@ -41,25 +38,15 @@
 
             <div class="col-3">
               <div class="form-group">
-                <label>Total Cost</label>
-                <input name="total_cost" type="number" class="form-control @error('total_cost') is-invalid @enderror" value="0" disabled>
-                @error('total_cost')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <label>Products Added</label>
+                <input name="total_products" id="product_count" type="number" class="form-control" value="0" disabled>
               </div>
             </div>
 
             <div class="col-3">
               <div class="form-group">
-                <label>Products Count</label>
-                <input name="total_products" id="product_count" type="number" class="form-control @error('total_products') is-invalid @enderror" value="1" disabled>
-                @error('total_products')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <label>Grand Total</label>
+                <input name="grand_total" id="grand_total" type="number" class="form-control" value="0" disabled>
               </div>
             </div>
           </div>
@@ -73,12 +60,19 @@
                 <div class="col-3">
                   <div class="form-group">
                     <label>Select Product</label>
-                    <select name="product_id[]" class="custom-select">
+                    <select name="product_id" id="product_id" class="custom-select">
                       @foreach ($products as $product)
                         <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : "" }}>{{ $product->name }}</option>
                       @endforeach
                     </select>
-                    @error('product_id')
+                  </div>
+                </div>
+
+                <div class="col-2">
+                  <div class="form-group">
+                    <label>Quantity</label>
+                    <input name="item" id="qty" type="number" class="form-control @error('items') is-invalid @enderror" value="1" placeholder="No. of items">
+                    @error('item')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -86,25 +80,37 @@
                   </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-1">
                   <div class="form-group">
-                    <label>Quantity</label>
-                    <input name="items[]" type="number" class="form-control @error('items') is-invalid @enderror" value="{{ old('items') }}" placeholder="No. of items">
-                    @error('items')
-                        <span class="text-danger" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                    <small>
+                      <a href="#" id="add_to_purchase" onclick="purchase()">
+                        <strong style="cursor: pointer">
+                          Purchase
+                        </strong>
+                      </a>
+                    </small>
                   </div>
                 </div>
 
                 <div class="col-6">
-                  <div class="form-group">
-                    <small>
-                      <strong class="add_field_button text-primary" style="cursor: pointer;">
-                        Add More Product
-                      </strong>
-                    </small>
+                  <div class="table-responsive">
+                    <table class="table table-sm table-borderless table-hover text-center">
+                      <thead>
+                        <tr>
+                          <th colspan="6">Purchase Details</th>
+                        </tr>
+                        <tr>
+                          <th>ID</th>
+                          <th>Product</th>
+                          <th>Price</th>
+                          <th>Quantity</th>
+                          <th>Total Cost</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="product_detail_holder">
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -124,55 +130,91 @@
 
 @section('scripts')
   <script>
-    $(document).ready(function() {
-      var max_fields      = {{ $products->count() }}; //maximum input boxes allowed
-      var wrapper         = $(".product_holder"); //Fields wrapper
-      var add_button      = $(".add_field_button"); //Add button ID
+    var max_fields        = {{ $products->count() }} //maximum input boxes allowed
+    var wrapper           = $("#product_detail_holder") //Fields wrapper
+    var add_button        = $("#add_to_purchase") //Add button ID
+    var all_products      = @JSON($products)  // fetching products from database
+    var purchased_products = []
+    var x = 0 //initlal text box count
 
-      var x = 1; //initlal text box count
+    function purchase() {
+      // creating purchasing details
+      var selected_product_id   = $('#product_id').val()
+      var selected_product_qty  = $('#qty').val()
 
-      $(add_button).click(function(e){ //on add input button click
-        if(x < max_fields){ //max input box allowed
-          x++; //text box increment
-          var add_product =
-            '<div class="row" id="add_product' + x + '">' +
-              '<div class="col-3">' +
-                '<div class="form-group">' +
-                  '<label>Select Product</label>' +
-                  '<select name="product_id[' + x + ']" class="custom-select">' +
-                    '@foreach ($products as $product)' +
-                      '<option value="{{ $product->id }}" {{ old("product_id") == $product->id ? "selected" : "" }}>{{ $product->name }}</option>' +
-                    '@endforeach' +
-                  '</select>' +
-                '</div>' +
-              '</div>' +
+      // adding purchase product
+      for(i = 0; i < all_products.length; i++) {
+        if (all_products[i].id == selected_product_id) {
+          var product_obj = new Object()
 
-              '<div class="col-3">' +
-                '<div class="form-group">' +
-                  '<label>Quantity</label>' +
-                  '<input name="items[' + x + ']" type="number" class="form-control @error('items') is-invalid @enderror" value="{{ old('items') }}" placeholder="No. of items">' +
-                '</div>' +
-              '</div>' +
+          product_obj.id          = all_products[i].id
+          product_obj.name        = all_products[i].name
+          product_obj.price       = all_products[i].price
+          product_obj.qty         = selected_product_qty
+          product_obj.total_price = all_products[i].price*selected_product_qty
 
-              '<div class="col-6">' +
-                '<small>' +
-                  '<strong class="text-danger remove" data-value="' + x + '" style="cursor: pointer;">Remove</strong>'
-                '</small>' +
-              '</div>' +
-            '</div>'
-
-          $(wrapper).append(add_product); // add input boxes.
-          $('#product_count').val(x);
+          purchased_products.push(product_obj)
         }
-      });
+      }
 
-      $(wrapper).on("click",".remove", function(e){ //user click on remove text
-        var add_product_id = $(this).data("value");
-        $("#remove" + add_product_id).remove();
-        $("#add_product" + add_product_id).remove();
-        x--;
-      })
+      // creating purchase detail DOM
+      if(x < max_fields){ // max input box allowed
+        x++ // text box increment
+        for(i = 0; i < purchased_products.length; i++) {
+          var product_detail =
+            '<tr id="product' + purchased_products[i].id + '">' +
+              '<td>' + purchased_products[i].id + '</td>' +
+              '<td>' + purchased_products[i].name + '</td>' +
+              '<td>' + purchased_products[i].price + '</td>' +
+              '<td>' + purchased_products[i].qty + '</td>' +
+              '<td>' + purchased_products[i].total_price + '</td>' +
+              '<td>' +
+                '<a href="#" class="text-danger" onclick="remove_purchase(' + purchased_products[i].id + ')">' +
+                  '<strong style="cursor: pointer">Remove</strong>' +
+                '</a>' +
+              '</td>' +
+            '</tr>'
+        }
 
-    });
+        // changing total when add product
+        grand_total()
+
+        //setting purchase details to form
+        purchase_details()
+
+        $(wrapper).append(product_detail) // add input boxes.
+        $('#product_count').val(x)
+      }
+    }
+
+    function remove_purchase(id) {
+      // removing purchase product
+      purchased_products.splice( purchased_products.indexOf(id), 1 );
+
+      //setting purchase details to form
+      purchase_details()
+
+      // removing purchase detail DOM
+      $("#product" + id).remove()
+      x--
+      $('#product_count').val(x)
+
+      // changing total when remove product
+      grand_total()
+    }
+
+    // calculating grand total
+    function grand_total() {
+      var grand_total = 0
+      for(i = 0; i < purchased_products.length; i++) {
+        grand_total = grand_total + purchased_products[i].total_price
+      }
+      document.getElementById("grand_total").value = grand_total
+    }
+
+    function purchase_details() {
+      document.getElementById("purchase_details").value = JSON.stringify(purchased_products)
+    }
+
   </script>
 @endsection

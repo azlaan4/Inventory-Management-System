@@ -26,7 +26,9 @@ class PurchaseController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = $request->purchase_details;
+
+        dd($data);
     }
 
     public function update(Request $request, Purchase $purchase)
