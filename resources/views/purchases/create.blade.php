@@ -26,8 +26,8 @@
 
             <div class="col-3">
               <div class="form-group">
-                <label>Discount on Total Cost</label>
-                <input name="discount" type="number" class="form-control @error('discount') is-invalid @enderror" value="{{ old('discount') }}" placeholder="Discount on Total Purchase">
+                <label>Discount on Total Cost <small class="text-primary">in percent (&percnt;)</small></label>
+                <input name="discount" id="discount" value="0" type="number" class="form-control @error('discount') is-invalid @enderror" value="{{ old('discount') }}" placeholder="Discount on Total Purchase" onkeyup="discount_calculator()" >
                 @error('discount')
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
@@ -39,14 +39,14 @@
             <div class="col-3">
               <div class="form-group">
                 <label>Products Added</label>
-                <input name="total_products" id="product_count" type="number" class="form-control" value="0" disabled>
+                <input name="total_products" value="0" id="product_count" type="number" class="form-control" readonly>
               </div>
             </div>
 
             <div class="col-3">
               <div class="form-group">
                 <label>Grand Total</label>
-                <input name="grand_total" id="grand_total" type="number" class="form-control" value="0" disabled>
+                <input name="grand_total" value="0" id="grand_total" type="number" class="form-control" readonly>
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@
                 <div class="col-3">
                   <div class="form-group">
                     <label>Select Product</label>
-                    <select name="product_id" id="product_id" class="custom-select">
+                    <select id="product_id" class="custom-select">
                       @foreach ($products as $product)
                         <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : "" }}>{{ $product->name }}</option>
                       @endforeach
@@ -71,7 +71,7 @@
                 <div class="col-2">
                   <div class="form-group">
                     <label>Quantity</label>
-                    <input name="item" id="qty" type="number" class="form-control @error('items') is-invalid @enderror" value="1" placeholder="No. of items">
+                    <input id="qty" type="number" class="form-control @error('items') is-invalid @enderror" value="1" placeholder="No. of items">
                     @error('item')
                         <span class="text-danger" role="alert">
                             <strong>{{ $message }}</strong>
@@ -180,7 +180,7 @@
         grand_total()
 
         //setting purchase details to form
-        purchase_details()
+        purchase_details_function()
 
         $(wrapper).append(product_detail) // add input boxes.
         $('#product_count').val(x)
@@ -192,7 +192,7 @@
       purchased_products.splice( purchased_products.indexOf(id), 1 );
 
       //setting purchase details to form
-      purchase_details()
+      purchase_details_function()
 
       // removing purchase detail DOM
       $("#product" + id).remove()
@@ -212,9 +212,17 @@
       document.getElementById("grand_total").value = grand_total
     }
 
-    function purchase_details() {
+    // setting purchase details of the current transection to the form back
+    function purchase_details_function() {
       document.getElementById("purchase_details").value = JSON.stringify(purchased_products)
     }
 
+    // calculating discount
+    function discount_calculator() {
+      var original_price = document.getElementById("grand_total").value
+      var discount = document.getElementById("discount").value
+      var discounted_price = original_price - (original_price * discount / 100)
+      document.getElementById("grand_total").value = discounted_price.toFixed(2)
+    }
   </script>
 @endsection
