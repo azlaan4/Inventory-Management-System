@@ -4,13 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 mt-3 mb-3">
-            @include('suppliers.create')
+            @include('sales.create')
         </div>
         <div class="col-md-12 mt-3 mb-3">
             <div class="card shadow">
                 <div class="card-header bg-dark">
                     <strong class="text-light">
-                        List of Suppliers
+                        List of Sales
                     </strong>
                 </div>
                 <div class="card-body">
@@ -21,44 +21,41 @@
                             <thead>
                                 <tr class="table-head-detail">
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Contact</th>
-                                    <th>Type</th>
+                                    <th>Customer</th>
+                                    <th>Total sale</th>
+                                    <th>Transection Cost</th>
+                                    <th>Discount Offered</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="suppliers">
-                                @foreach ($suppliers as $supplier)
-                                    <tr class="supplier-detail">
+                            <tbody id="sales">
+                                @foreach ($sales as $sale)
+                                    <tr class="sale-detail">
                                         <td>
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{ $supplier->name }}
+                                            {{ $sale->customer->name }}
                                         </td>
                                         <td>
-                                            {{ $supplier->number }}
+                                            {{ $sale->product_count }}
                                         </td>
                                         <td>
-                                            {{ $supplier->type }}
+                                            Rs. {{ $sale->grand_total }} /-
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#edit-supplier-detail{{ $supplier->id }}">
-                                                <i class="far fa-edit mr-1"></i> EDIT
-                                            </a>
-                                            <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#show-supplier-detail{{ $supplier->id }}">
+                                            {{ $sale->discount }} %
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#show-sale-detail{{ $sale->id }}" title="Show">
                                                 <i class="fa fa-external-link-alt mr-1"></i> DETAIL VIEW
                                             </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            {{-- edit forms --}}
-                                            @include('suppliers.edit')
-                                        </td>
-                                        <td>
-                                            {{-- edit forms --}}
-                                            @include('suppliers.show')
+                                            {{-- show forms --}}
+                                            @include('sales.show')
                                         </td>
                                     </tr>
                                 @endforeach
@@ -66,7 +63,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="7" class="pb-0">
-                                        {{ $suppliers->links() }}
+                                        {{ $sales->links() }}
                                     </td>
                                 </tr>
                             </tfoot>
@@ -84,7 +81,7 @@
         $(document).ready(function(){
             $("#filter").on("keyup", function() {
               var value = $(this).val().toLowerCase();
-              $("#suppliers tr").filter(function() {
+              $("#sales tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
               });
             });

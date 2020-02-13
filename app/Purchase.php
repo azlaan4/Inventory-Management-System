@@ -14,4 +14,9 @@ class Purchase extends Model
     {
     	return $this->belongsTo('App\Supplier');
     }
+
+    public function purchaseDetails()
+    {
+        return $this->hasMany('App\PurchaseDetails');
+    }
 }

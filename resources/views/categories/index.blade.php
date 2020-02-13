@@ -15,6 +15,7 @@
                 </div>
                 <div class="card-body">
                     <input id="filter" type="text" class="form-control" placeholder="Search...">
+                    <br>
                     <div class="table-responsive-sm">
                         <table class="table table-borderless table-sm" style="width:100%">
                             <thead>
@@ -46,7 +47,9 @@
                                             {{ date('F jS, Y', strtotime($category->updated_at)) }}
                                         </td>
                                         <td>
-                                            <a href="#" onclick="formInlineEdit({{ $category->id }})">Edit</a>
+                                            <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#edit-category-detail{{ $category->id }}" title="Edit">
+                                                <i class="far fa-edit mr-1"></i> EDIT
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -83,9 +86,5 @@
               });
             });
         });
-
-        function formInlineEdit(id) {
-            $('#edit-category-detail'+id).modal('show')
-        }
     </script>
 @endsection

@@ -24,4 +24,5 @@ Route::resource('/suppliers', 'SupplierController', ['except' => ['create', 'sho
 Route::resource('/brands', 'BrandController', ['except' => ['create', 'show', 'edit', 'destroy']]);
 Route::resource('/categories', 'CategoryController', ['except' => ['create', 'show', 'edit', 'destroy']]);
 Route::resource('/products', 'ProductController', ['except' => ['create', 'show', 'edit', 'destroy']]);
-Route::resource('/purchases', 'PurchaseController', ['except' => ['create', 'show', 'edit', 'destroy']]);
+Route::resource('/purchases', 'PurchaseController', ['except' => ['create', 'show', 'edit', 'update', 'destroy']]);
+Route::resource('/sales', 'SaleController', ['except' => ['create', 'show', 'edit', 'update', 'destroy']]);

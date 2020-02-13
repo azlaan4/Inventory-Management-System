@@ -13,11 +13,16 @@ use Session;
 
 class PurchaseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $purchases = Purchase::latest('id')->paginate(15);
-        $suppliers = Supplier::all();
-        $products = Product::all();
+        $purchases  = Purchase::latest('id')->paginate(15);
+        $suppliers  = Supplier::all();
+        $products   = Product::all();
 
         return view('purchases.index')
                             ->with('purchases', $purchases)
@@ -54,15 +59,12 @@ class PurchaseController extends Controller
             // setting value to the stock of this product
             $product = Product::find($value["id"]);
             $product->stock = $value["qty"];
+            $product->status = ($product->stock > 0) ? "Available" : "Not-Available"; // setting product status
             $product->save();
         }
 
-        Session::flash('message', 'Purchased Transection Added to the Database.');
+        Session::flash('message', 'Purchase Transection Added to the Database.');
         return redirect()->route('purchases.index');
     }
 
-    public function update(Request $request, Purchase $purchase)
-    {
-        //
-    }
 }

@@ -118,9 +118,9 @@
             <div class="col-3">
               <div class="form-group">
                 <label>Status</label>
-                <select name="status" class="custom-select">
-                  <option value="Available" {{ old('status') === 'Available' ? 'selected' : "" }}>Available</option>
-                  <option value="Not-Available" {{ old('status') === 'Not-Available' ? 'selected' : "" }}>Not-Available</option>
+                <select name="status" class="custom-select" disabled>
+                  <option value="Available" >Available</option>
+                  <option value="Not-Available" selected>Not-Available</option>
                 </select>
                 @error('status')
                     <span class="text-danger" role="alert">
@@ -132,7 +132,10 @@
           </div>
           <div class="row">
             <div class="col-3">
-              <button type="submit" class="btn btn-success btn-block">Add</button>
+              <button type="submit" class="btn btn-success btn-block">
+                <i class="fas fa-check mr-1"></i>
+                SUBMIT
+              </button>
             </div>
           </div>
         </form>

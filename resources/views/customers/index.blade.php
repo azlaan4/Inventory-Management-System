@@ -15,18 +15,15 @@
                 </div>
                 <div class="card-body">
                     <input id="filter" type="text" class="form-control" placeholder="Search...">
+                    <br>
                     <div class="table-responsive-sm">
                         <table class="table table-borderless table-sm" style="width:100%">
                             <thead>
                                 <tr class="table-head-detail">
                                     <th>#</th>
-                                    <th>Customer ID</th>
                                     <th>Name</th>
                                     <th>Contact</th>
-                                    <th>Address</th>
                                     <th>Type</th>
-                                    <th>Registered</th>
-                                    <th>Modified</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -37,34 +34,31 @@
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{ $customer->id }}
-                                        </td>
-                                        <td>
                                             {{ $customer->name }}
                                         </td>
                                         <td>
                                             {{ $customer->number }}
                                         </td>
                                         <td>
-                                            {{ $customer->address }}
-                                        </td>
-                                        <td>
                                             {{ $customer->type }}
                                         </td>
                                         <td>
-                                            {{ date('F jS, Y', strtotime($customer->created_at)) }}
-                                        </td>
-                                        <td>
-                                            {{ date('F jS, Y', strtotime($customer->updated_at)) }}
-                                        </td>
-                                        <td>
-                                            <a href="#" onclick="formInlineEdit({{ $customer->id }})">Edit</a>
+                                            <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#edit-customer-detail{{ $customer->id }}">
+                                                <i class="far fa-edit mr-1"></i> EDIT
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#show-customer-detail{{ $customer->id }}">
+                                                <i class="fa fa-external-link-alt mr-1"></i> DETAIL VIEW
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             {{-- edit forms --}}
                                             @include('customers.edit')
+                                        </td>
+                                        <td>
+                                            {{-- edit forms --}}
+                                            @include('customers.show')
                                         </td>
                                     </tr>
                                 @endforeach
@@ -95,9 +89,5 @@
               });
             });
         });
-
-        function formInlineEdit(id) {
-            $('#edit-customer-detail'+id).modal('show')
-        }
     </script>
 @endsection

@@ -65,7 +65,10 @@
           </div>
           <div class="row">
             <div class="col-3">
-              <button type="submit" class="btn btn-success btn-block">Add</button>
+              <button type="submit" class="btn btn-success btn-block">
+                <i class="fas fa-check mr-1"></i>
+                SUBMIT
+              </button>
             </div>
           </div>
         </form>

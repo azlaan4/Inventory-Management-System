@@ -102,21 +102,14 @@
           </div>
 
           <div class="form-group">
-            <label>Status</label>
-            <select name="status" class="custom-select">
-              <option value="Available" {{ $product->status === 'Available' ? 'selected' : "" }}>Available</option>
-              <option value="Not-Available" {{ $product->status === 'Not-Available' ? 'selected' : "" }}>Not-Available</option>
-            </select>
-            @error('status')
-                <span class="text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-          </div>
-
-          <div class="form-group">
-            <button type="submit" class="btn btn-success btn-block">Save Changes</button>
-            <a href="#" class="btn btn-danger btn-block" data-dismiss="modal" aria-label="Close">Cancel</a>
+            <button type="submit" class="btn btn-success btn-sm">
+              <i class="fa fa-save mr-1"></i>
+              SAVE CHANGES
+            </button>
+            <a href="#" class="btn btn-danger btn-sm" data-dismiss="modal" aria-label="Close">
+              <i class="fas fa-times mr-1"></i>
+              CANCEL
+            </a>
           </div>
         </form>
       </div>

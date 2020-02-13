@@ -15,18 +15,16 @@
                 </div>
                 <div class="card-body">
                     <input id="filter" type="text" class="form-control" placeholder="Search...">
+                    <br>
                     <div class="table-responsive-sm">
                         <table class="table table-borderless table-sm" style="width:100%">
                             <thead>
                                 <tr class="table-head-detail">
                                     <th>#</th>
-                                    <th>Purchase ID</th>
-                                    <th>Name</th>
-                                    <th>Contact</th>
-                                    <th>Address</th>
-                                    <th>Type</th>
-                                    <th>Registered</th>
-                                    <th>Modified</th>
+                                    <th>Supplier</th>
+                                    <th>Total Purchase</th>
+                                    <th>Transection Cost</th>
+                                    <th>Discount Offered</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -37,34 +35,27 @@
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{ $purchase->id }}
-                                        </td>
-                                        {{--  <td>
-                                            {{ $purchase->name }}
+                                            {{ $purchase->supplier->name }}
                                         </td>
                                         <td>
-                                            {{ $purchase->number }}
+                                            {{ $purchase->product_count }}
                                         </td>
                                         <td>
-                                            {{ $purchase->address }}
+                                            Rs. {{ $sale->grand_total }} /-
                                         </td>
                                         <td>
-                                            {{ $purchase->type }}
+                                            {{ $purchase->discount }} %
                                         </td>
                                         <td>
-                                            {{ date('F jS, Y', strtotime($purchase->created_at)) }}
+                                            <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#show-purchase-detail{{ $purchase->id }}" title="Show">
+                                                <i class="fa fa-external-link-alt mr-1"></i> DETAIL VIEW
+                                            </a>
                                         </td>
-                                        <td>
-                                            {{ date('F jS, Y', strtotime($purchase->updated_at)) }}
-                                        </td>
-                                        <td>
-                                            <a href="#" onclick="formInlineEdit({{ $purchase->id }})">Edit</a>
-                                        </td>  --}}
                                     </tr>
                                     <tr>
                                         <td>
-                                            {{-- edit forms --}}
-                                            {{--  @include('purchases.edit')  --}}
+                                            {{-- show forms --}}
+                                            @include('purchases.show')
                                         </td>
                                     </tr>
                                 @endforeach
@@ -95,9 +86,5 @@
               });
             });
         });
-
-        function formInlineEdit(id) {
-            $('#edit-purchase-detail'+id).modal('show')
-        }
     </script>
 @endsection

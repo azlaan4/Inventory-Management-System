@@ -1,5 +1,3 @@
-
-
 <div class="modal fade" id="edit-supplier-detail{{ $supplier->id }}" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -53,8 +51,14 @@
             @enderror
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-success btn-block btn-sm">Save Changes</button>
-            <a href="#" class="btn btn-danger btn-block btn-sm" data-dismiss="modal" aria-label="Close">Cancel</a>
+            <button type="submit" class="btn btn-success btn-sm">
+              <i class="fa fa-save mr-1"></i>
+              SAVE CHANGES
+            </button>
+            <a href="#" class="btn btn-danger btn-sm" data-dismiss="modal" aria-label="Close">
+              <i class="fas fa-times mr-1"></i>
+              CANCEL
+            </a>
           </div>
         </form>
       </div>

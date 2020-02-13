@@ -15,23 +15,17 @@
                 </div>
                 <div class="card-body">
                     <input id="filter" type="text" class="form-control" placeholder="Search...">
+                    <br>
                     <div class="table-responsive-sm">
                         <table class="table table-borderless table-sm" style="width:100%">
                             <thead>
                                 <tr class="table-head-detail">
                                     <th>#</th>
-                                    <th>Product ID</th>
                                     <th>Name</th>
                                     <th>Brand</th>
                                     <th>Category</th>
-                                    <th>Size</th>
-                                    <th>Price</th>
-                                    <th>MRP</th>
-                                    <th>Unit</th>
-                                    <th>Stock</th>
+                                    <th>Cost per Unit</th>
                                     <th>Status</th>
-                                    <th>Registered</th>
-                                    <th>Modified</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -40,9 +34,6 @@
                                     <tr class="product-detail">
                                         <td>
                                             {{ $loop->iteration }}
-                                        </td>
-                                        <td>
-                                            {{ $product->id }}
                                         </td>
                                         <td>
                                             {{ $product->name }}
@@ -54,37 +45,28 @@
                                             {{ $product->category->name }}
                                         </td>
                                         <td>
-                                            {{ $product->size }}
-                                        </td>
-                                        <td>
-                                            {{ $product->price }}
-                                        </td>
-                                        <td>
-                                            {{ $product->mrp }}
-                                        </td>
-                                        <td>
-                                            {{ $product->unit }}
-                                        </td>
-                                        <td>
-                                            {{ $product->stock }}
+                                            Rs. {{ $product->price . "/- per " . $product->unit }}
                                         </td>
                                         <td>
                                             {{ $product->status }}
                                         </td>
                                         <td>
-                                            {{ date('d/m/Y', strtotime($product->created_at)) }}
-                                        </td>
-                                        <td>
-                                            {{ date('d/m/Y', strtotime($product->updated_at)) }}
-                                        </td>
-                                        <td>
-                                            <a href="#" onclick="formInlineEdit({{ $product->id }})">Edit</a>
+                                            <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#edit-product-detail{{ $product->id }}">
+                                                <i class="far fa-edit mr-1"></i> EDIT
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#show-product-detail{{ $product->id }}">
+                                                <i class="fa fa-external-link-alt mr-1"></i> DETAIL VIEW
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             {{-- edit forms --}}
                                             @include('products.edit')
+                                        </td>
+                                        <td>
+                                            {{-- edit forms --}}
+                                            @include('products.show')
                                         </td>
                                     </tr>
                                 @endforeach
@@ -115,9 +97,5 @@
               });
             });
         });
-
-        function formInlineEdit(id) {
-            $('#edit-product-detail'+id).modal('show')
-        }
     </script>
 @endsection

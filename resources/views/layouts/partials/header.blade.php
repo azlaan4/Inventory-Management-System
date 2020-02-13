@@ -13,3 +13,6 @@
 
 {{-- Styles --}}
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+{{--  font awesome  --}}
+<script src="https://kit.fontawesome.com/c7ffa0052f.js" crossorigin="anonymous"></script>

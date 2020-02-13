@@ -35,6 +35,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                         <a class="dropdown-item" href="{{ route('purchases.index') }}">Purchases</a>
+                        <a class="dropdown-item" href="{{ route('sales.index') }}">Sales</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
